@@ -1,4 +1,4 @@
-// كود JavaScript المعدل
+// كود JavaScript النهائي
 document.addEventListener('DOMContentLoaded', function() {
     // متغيرات التطبيق
     const totalTime = 12;
@@ -6,25 +6,57 @@ document.addEventListener('DOMContentLoaded', function() {
     let timerInterval = null;
     
     // عناصر DOM
-    const startScreen = document.getElementById('startScreen');
-    const startBtn = document.getElementById('startBtn');
-    const loaderContainer = document.getElementById('loaderContainer');
-    const timerElement = document.getElementById('timer');
-    const audio = document.getElementById('loading-sound');
-    const timeDisplay = document.querySelector('.time-left');
-    const progressFill = document.querySelector('.progress-fill');
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const startButton = document.getElementById('startButton');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const audio = document.getElementById('loadingAudio');
+    const timeCount = document.getElementById('timeCount');
+    const progressFill = document.getElementById('progressFill');
     const body = document.body;
     
-    // GSAP أنيميشن للشعار
-    gsap.from('.gr-logo', {
+    // تهيئة النجوم
+    createStars();
+    
+    // وظيفة إنشاء النجوم
+    function createStars() {
+        const starField = document.querySelector('.star-field');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            // حجم عشوائي
+            const size = Math.random() * 3 + 1;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            
+            // موقع عشوائي
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            
+            // توهج عشوائي
+            star.style.background = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.2})`;
+            star.style.borderRadius = '50%';
+            star.style.position = 'absolute';
+            
+            // أنيميشن عشوائية
+            const duration = Math.random() * 5 + 3;
+            const delay = Math.random() * 5;
+            star.style.animation = `starsTwinkle ${duration}s ${delay}s infinite alternate`;
+            
+            starField.appendChild(star);
+        }
+    }
+    
+    // أنيميشن GSAP للشاشة الترحيبية
+    gsap.from('.main-logo', {
         duration: 1.5,
         scale: 0,
         rotation: 360,
-        ease: "back.out(1.7)",
+        ease: "elastic.out(1, 0.5)",
         delay: 0.5
     });
     
-    gsap.from('.welcome-title', {
+    gsap.from('.main-title', {
         duration: 1,
         y: 50,
         opacity: 0,
@@ -32,77 +64,91 @@ document.addEventListener('DOMContentLoaded', function() {
         delay: 1
     });
     
-    gsap.from('.welcome-subtitle', {
+    gsap.from('.description-section', {
         duration: 1,
         y: 30,
         opacity: 0,
         ease: "power3.out",
-        delay: 1.2
+        delay: 1.3
     });
     
-    gsap.from('.definition', {
-        duration: 1,
-        y: 30,
-        opacity: 0,
-        ease: "power3.out",
-        delay: 1.4
-    });
-    
-    gsap.from('.start-btn', {
+    gsap.from('.start-button', {
         duration: 1,
         y: 30,
         opacity: 0,
         ease: "power3.out",
         delay: 1.6,
         onComplete: function() {
-            // جعل الزر يلمع عند اكتمال الأنيميشن
-            gsap.to('.start-btn', {
+            // جعل الزر يلمس
+            gsap.to('.button-glow', {
                 duration: 2,
-                boxShadow: "0 0 30px rgba(157, 78, 221, 0.8)",
+                opacity: 0.7,
                 repeat: -1,
                 yoyo: true
             });
         }
     });
     
-    // أنيميشن للعناصر الطافية
-    gsap.to('.floating-icon', {
-        duration: 10,
-        rotation: 360,
-        repeat: -1,
-        ease: "none"
+    gsap.from('.decor-circle, .decor-line', {
+        duration: 1.5,
+        scale: 0,
+        opacity: 0,
+        stagger: 0.1,
+        ease: "power2.out",
+        delay: 0.8
+    });
+    
+    // أنيميشن للزوايا
+    gsap.from('.corner-element', {
+        duration: 1,
+        rotation: 90,
+        opacity: 0,
+        stagger: 0.3,
+        ease: "power2.out",
+        delay: 1.2
     });
     
     // وظيفة بدء التحميل
     function startLoading() {
-        // أنيميشن إخفاء شاشة البدء
-        gsap.to(startScreen, {
-            duration: 0.8,
-            opacity: 0,
-            scale: 0.9,
-            ease: "power2.in",
+        // تأثير اهتزاز للزر
+        gsap.to(startButton, {
+            duration: 0.1,
+            scale: 0.95,
+            repeat: 3,
+            yoyo: true,
+            ease: "power2.out",
             onComplete: function() {
-                startScreen.style.display = 'none';
+                startButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري البدء...</span>';
+                startButton.disabled = true;
                 
-                // إظهار المحمل والمؤقت بأنيميشن
-                loaderContainer.style.display = 'block';
-                timerElement.style.display = 'block';
-                
-                gsap.from([loaderContainer, timerElement], {
+                // أنيميشن إخفاء شاشة الترحيب
+                gsap.to(welcomeScreen, {
                     duration: 0.8,
-                    y: 30,
                     opacity: 0,
-                    stagger: 0.2,
-                    ease: "power3.out",
+                    scale: 0.9,
+                    ease: "power2.in",
                     onComplete: function() {
-                        // بدء المؤقت
-                        setTimeout(() => {
-                            updateTimer();
-                            timerInterval = setInterval(updateTimer, 1000);
-                        }, 100);
+                        welcomeScreen.style.display = 'none';
                         
-                        // تشغيل الصوت
-                        playAudio();
+                        // إظهار شاشة التحميل
+                        loadingScreen.style.display = 'flex';
+                        
+                        // أنيميشن ظهور شاشة التحميل
+                        gsap.from(loadingScreen, {
+                            duration: 0.8,
+                            opacity: 0,
+                            scale: 0.95,
+                            ease: "power3.out",
+                            onComplete: function() {
+                                // بدء المؤقت بعد ظهور الشاشة
+                                setTimeout(() => {
+                                    startTimer();
+                                }, 300);
+                                
+                                // تشغيل الصوت
+                                playAudio();
+                            }
+                        });
                     }
                 });
             }
@@ -113,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function playAudio() {
         if (audio) {
             audio.currentTime = 0;
-            audio.volume = 0.5;
+            audio.volume = 0.4;
             
             const playPromise = audio.play();
             
@@ -125,20 +171,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // وظيفة بدء المؤقت
+    function startTimer() {
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+    
     // وظيفة تحديث المؤقت
     function updateTimer() {
         timeLeft--;
         
-        // تحديث العرض بأنيميشن
-        gsap.to(timeDisplay, {
+        // تحديث العد التنازلي مع أنيميشن
+        gsap.to(timeCount, {
             duration: 0.3,
-            scale: 1.2,
+            scale: 1.3,
+            color: '#ff6bff',
             ease: "power2.out",
             onComplete: function() {
-                timeDisplay.textContent = timeLeft;
-                gsap.to(timeDisplay, {
+                timeCount.textContent = timeLeft;
+                gsap.to(timeCount, {
                     duration: 0.3,
                     scale: 1,
+                    color: '#c77dff',
                     ease: "power2.in"
                 });
             }
@@ -152,13 +206,14 @@ document.addEventListener('DOMContentLoaded', function() {
             ease: "power1.out"
         });
         
-        // تأثير اهتزاز عند تغيير الأرقام الكبيرة
-        if (timeLeft === 10 || timeLeft === 5 || timeLeft === 3) {
-            gsap.to(loaderContainer, {
-                duration: 0.1,
-                x: -5,
-                repeat: 5,
-                yoyo: true
+        // تأثيرات خاصة عند نقاط زمنية محددة
+        if (timeLeft === 8 || timeLeft === 4) {
+            gsap.to('.loader-circle', {
+                duration: 0.2,
+                scale: 1.1,
+                repeat: 3,
+                yoyo: true,
+                ease: "power2.out"
             });
         }
         
@@ -174,12 +229,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // تأثير إخفاء الصفحة
             gsap.to(body, {
-                duration: 1.5,
+                duration: 1,
                 opacity: 0,
-                filter: "blur(10px)",
+                scale: 1.05,
+                filter: "blur(15px)",
                 ease: "power2.in",
                 onComplete: function() {
-                    // الانتقال للصفحة التالية بدون رسالة
+                    // الانتقال للصفحة التالية بدون أي رسائل
                     window.location.href = 'next-page.html';
                 }
             });
@@ -187,53 +243,48 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // إضافة حدث النقر لزر البدء
-    startBtn.addEventListener('click', function() {
-        // تأثير اهتزاز
-        gsap.to(this, {
-            duration: 0.1,
-            scale: 0.95,
-            repeat: 2,
-            yoyo: true,
-            ease: "power2.out",
-            onComplete: function() {
-                startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري البدء...';
-                startBtn.disabled = true;
-                
-                // بدء التحميل بعد تأخير بسيط
-                setTimeout(() => {
-                    startLoading();
-                }, 500);
-            }
-        });
-    });
+    startButton.addEventListener('click', startLoading);
     
     // تأثيرات hover للزر
-    startBtn.addEventListener('mouseenter', function() {
-        gsap.to(this, {
+    startButton.addEventListener('mouseenter', function() {
+        gsap.to('.button-content', {
             duration: 0.3,
             scale: 1.05,
-            boxShadow: "0 20px 40px rgba(157, 78, 221, 0.6)",
+            boxShadow: "0 25px 60px rgba(157, 78, 221, 0.4)",
             ease: "power2.out"
         });
     });
     
-    startBtn.addEventListener('mouseleave', function() {
-        gsap.to(this, {
+    startButton.addEventListener('mouseleave', function() {
+        gsap.to('.button-content', {
             duration: 0.3,
             scale: 1,
-            boxShadow: "0 10px 30px rgba(157, 78, 221, 0.4)",
+            boxShadow: "none",
             ease: "power2.in"
         });
     });
     
     // دعم الضغط بالمسافة أو Enter
     document.addEventListener('keydown', function(e) {
-        if ((e.code === 'Space' || e.code === 'Enter') && startScreen.style.display !== 'none') {
-            startBtn.click();
+        if ((e.code === 'Space' || e.code === 'Enter') && welcomeScreen.style.display !== 'none') {
+            startButton.click();
         }
     });
     
-    // تحسين للشاشات المختلفة
+    // التحكم في الصوت عند تغيير التبويب
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            if (audio && !audio.paused) {
+                audio.pause();
+            }
+        } else {
+            if (audio && audio.paused && timeLeft > 0 && timeLeft < totalTime) {
+                audio.play().catch(e => console.log('إعادة تشغيل الصوت'));
+            }
+        }
+    });
+    
+    // ضبط التصميم للشاشات المختلفة
     function adjustLayout() {
         const width = window.innerWidth;
         const height = window.innerHeight;
@@ -246,10 +297,9 @@ document.addEventListener('DOMContentLoaded', function() {
             document.documentElement.style.fontSize = '16px';
         }
         
-        // تعديل للشاشات الطويلة
+        // تعديل للحواف
         if (height > 800) {
-            loaderContainer.style.bottom = '20vh';
-            timerElement.style.bottom = '8vh';
+            document.querySelector('.welcome-content').style.padding = '4rem 3rem';
         }
     }
     
@@ -257,5 +307,5 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', adjustLayout);
     
     // تهيئة الصفحة
-    console.log('موقع GR جاهز للعمل!');
+    console.log('موقع GR جاهز للعمل! 🎮');
 });
