@@ -1,4 +1,4 @@
-// كود JavaScript المحسّن
+// كود JavaScript المعدل
 document.addEventListener('DOMContentLoaded', function() {
     // متغيرات التطبيق
     const totalTime = 12;
@@ -15,137 +15,151 @@ document.addEventListener('DOMContentLoaded', function() {
     const progressFill = document.querySelector('.progress-fill');
     const body = document.body;
     
-    // التحقق من دعم المتصفح
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    // GSAP أنيميشن للشعار
+    gsap.from('.gr-logo', {
+        duration: 1.5,
+        scale: 0,
+        rotation: 360,
+        ease: "back.out(1.7)",
+        delay: 0.5
+    });
     
-    // إضافة جسيمات للخلفية
-    createParticles();
+    gsap.from('.welcome-title', {
+        duration: 1,
+        y: 50,
+        opacity: 0,
+        ease: "power3.out",
+        delay: 1
+    });
     
-    // وظيفة إنشاء جسيمات متحركة
-    function createParticles() {
-        const particlesContainer = document.createElement('div');
-        particlesContainer.className = 'particles';
-        document.body.appendChild(particlesContainer);
-        
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            
-            // أبعاد عشوائية
-            const size = Math.random() * 5 + 2;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            
-            // موقع عشوائي
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.top = `${Math.random() * 100}%`;
-            
-            // لون عشوائي من الألوان الرئيسية
-            const colors = ['#ffbf48', '#be4a1d', '#ffbf4780', '#bf4a1d80'];
-            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-            
-            // حركة عشوائية
-            const duration = Math.random() * 20 + 10;
-            const delay = Math.random() * 5;
-            particle.style.animation = `float ${duration}s infinite ${delay}s linear`;
-            
-            particlesContainer.appendChild(particle);
+    gsap.from('.welcome-subtitle', {
+        duration: 1,
+        y: 30,
+        opacity: 0,
+        ease: "power3.out",
+        delay: 1.2
+    });
+    
+    gsap.from('.definition', {
+        duration: 1,
+        y: 30,
+        opacity: 0,
+        ease: "power3.out",
+        delay: 1.4
+    });
+    
+    gsap.from('.start-btn', {
+        duration: 1,
+        y: 30,
+        opacity: 0,
+        ease: "power3.out",
+        delay: 1.6,
+        onComplete: function() {
+            // جعل الزر يلمع عند اكتمال الأنيميشن
+            gsap.to('.start-btn', {
+                duration: 2,
+                boxShadow: "0 0 30px rgba(157, 78, 221, 0.8)",
+                repeat: -1,
+                yoyo: true
+            });
         }
-    }
+    });
+    
+    // أنيميشن للعناصر الطافية
+    gsap.to('.floating-icon', {
+        duration: 10,
+        rotation: 360,
+        repeat: -1,
+        ease: "none"
+    });
     
     // وظيفة بدء التحميل
     function startLoading() {
-        // إخفاء شاشة البدء
-        startScreen.style.opacity = '0';
-        setTimeout(() => {
-            startScreen.style.display = 'none';
-        }, 500);
-        
-        // إظهار المحمل والمؤقت
-        loaderContainer.style.display = 'block';
-        timerElement.style.display = 'block';
-        
-        // بدء المؤقت
-        setTimeout(() => {
-            updateTimer();
-            timerInterval = setInterval(updateTimer, 1000);
-        }, 100);
-        
-        // تشغيل الصوت مع معالجة الأخطاء
-        playAudio();
-        
-        // إرسال حدث للمراقبة
-        console.log('بدء التحميل...');
+        // أنيميشن إخفاء شاشة البدء
+        gsap.to(startScreen, {
+            duration: 0.8,
+            opacity: 0,
+            scale: 0.9,
+            ease: "power2.in",
+            onComplete: function() {
+                startScreen.style.display = 'none';
+                
+                // إظهار المحمل والمؤقت بأنيميشن
+                loaderContainer.style.display = 'block';
+                timerElement.style.display = 'block';
+                
+                gsap.from([loaderContainer, timerElement], {
+                    duration: 0.8,
+                    y: 30,
+                    opacity: 0,
+                    stagger: 0.2,
+                    ease: "power3.out",
+                    onComplete: function() {
+                        // بدء المؤقت
+                        setTimeout(() => {
+                            updateTimer();
+                            timerInterval = setInterval(updateTimer, 1000);
+                        }, 100);
+                        
+                        // تشغيل الصوت
+                        playAudio();
+                    }
+                });
+            }
+        });
     }
     
     // وظيفة تشغيل الصوت
     function playAudio() {
         if (audio) {
             audio.currentTime = 0;
-            audio.volume = 0.7;
+            audio.volume = 0.5;
             
-            // حل خاص لمتصفحات iOS/Safari
-            if (isIOS || isSafari) {
-                // على iOS، يجب أن يكون الصوت مطلقًا بواسطة المستخدم
-                audio.play().catch(e => {
-                    console.log('خطأ في تشغيل الصوت على iOS/Safari:', e);
-                    showAudioError();
+            const playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(e => {
+                    console.log('سيتم تشغيل الصوت بصمت');
                 });
-            } else {
-                // على المتصفحات الأخرى
-                const playPromise = audio.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.catch(e => {
-                        console.log('خطأ في تشغيل الصوت:', e);
-                        showAudioError();
-                    });
-                }
             }
-        } else {
-            console.log('عنصر الصوت غير موجود');
         }
-    }
-    
-    // عرض رسالة خطأ الصوت
-    function showAudioError() {
-        const errorDiv = document.createElement('div');
-        errorDiv.style.cssText = `
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 0, 0, 0.9);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            z-index: 10000;
-            font-size: 14px;
-            text-align: center;
-            max-width: 90%;
-        `;
-        errorDiv.textContent = '⚠️ لم يتمكن من تشغيل الصوت. يرجى التحقق من إعدادات الصوت.';
-        document.body.appendChild(errorDiv);
-        
-        setTimeout(() => {
-            errorDiv.remove();
-        }, 5000);
     }
     
     // وظيفة تحديث المؤقت
     function updateTimer() {
         timeLeft--;
         
-        // تحديث العرض
-        if (timeDisplay) {
-            timeDisplay.textContent = timeLeft;
-        }
+        // تحديث العرض بأنيميشن
+        gsap.to(timeDisplay, {
+            duration: 0.3,
+            scale: 1.2,
+            ease: "power2.out",
+            onComplete: function() {
+                timeDisplay.textContent = timeLeft;
+                gsap.to(timeDisplay, {
+                    duration: 0.3,
+                    scale: 1,
+                    ease: "power2.in"
+                });
+            }
+        });
         
         // تحديث شريط التقدم
-        if (progressFill) {
-            const progressPercent = ((totalTime - timeLeft) / totalTime) * 100;
-            progressFill.style.width = progressPercent + '%';
+        const progressPercent = ((totalTime - timeLeft) / totalTime) * 100;
+        gsap.to(progressFill, {
+            duration: 0.8,
+            width: progressPercent + '%',
+            ease: "power1.out"
+        });
+        
+        // تأثير اهتزاز عند تغيير الأرقام الكبيرة
+        if (timeLeft === 10 || timeLeft === 5 || timeLeft === 3) {
+            gsap.to(loaderContainer, {
+                duration: 0.1,
+                x: -5,
+                repeat: 5,
+                yoyo: true
+            });
         }
         
         // إذا انتهى الوقت
@@ -158,126 +172,71 @@ document.addEventListener('DOMContentLoaded', function() {
                 audio.currentTime = 0;
             }
             
-            // تأثير إخفاء تدريجي
-            body.classList.add('fade-out');
-            
-            // إضافة رسالة الانتقال
-            const transitionMsg = document.createElement('div');
-            transitionMsg.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: rgba(0, 0, 0, 0.8);
-                color: #ffbf48;
-                padding: 20px 40px;
-                border-radius: 10px;
-                font-size: 1.5rem;
-                z-index: 10001;
-                text-align: center;
-                animation: fadeIn 0.5s;
-            `;
-            transitionMsg.textContent = '🚀 جاري الانتقال...';
-            document.body.appendChild(transitionMsg);
-            
-            // الانتقال للصفحة التالية
-            setTimeout(() => {
-                window.location.href = 'next-page.html';
-            }, 2000);
-        }
-    }
-    
-    // وظيفة إعادة الضبط
-    function resetLoader() {
-        clearInterval(timerInterval);
-        timeLeft = totalTime;
-        
-        if (timeDisplay) timeDisplay.textContent = timeLeft;
-        if (progressFill) progressFill.style.width = '0%';
-        if (audio) {
-            audio.pause();
-            audio.currentTime = 0;
+            // تأثير إخفاء الصفحة
+            gsap.to(body, {
+                duration: 1.5,
+                opacity: 0,
+                filter: "blur(10px)",
+                ease: "power2.in",
+                onComplete: function() {
+                    // الانتقال للصفحة التالية بدون رسالة
+                    window.location.href = 'next-page.html';
+                }
+            });
         }
     }
     
     // إضافة حدث النقر لزر البدء
     startBtn.addEventListener('click', function() {
-        // اهتزاز خفيف للزر (إذا كان الجهاز يدعم)
-        if (navigator.vibrate) {
-            navigator.vibrate(50);
-        }
-        
-        // تغيير نص الزر مؤقتاً
-        const originalText = startBtn.innerHTML;
-        startBtn.innerHTML = '🎵 جاري البدء...';
-        startBtn.disabled = true;
-        
-        // بدء التحميل بعد تأخير بسيط
-        setTimeout(() => {
-            startLoading();
-        }, 300);
+        // تأثير اهتزاز
+        gsap.to(this, {
+            duration: 0.1,
+            scale: 0.95,
+            repeat: 2,
+            yoyo: true,
+            ease: "power2.out",
+            onComplete: function() {
+                startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري البدء...';
+                startBtn.disabled = true;
+                
+                // بدء التحميل بعد تأخير بسيط
+                setTimeout(() => {
+                    startLoading();
+                }, 500);
+            }
+        });
     });
     
-    // إضافة تأثير hover للزر
+    // تأثيرات hover للزر
     startBtn.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-3px) scale(1.05)';
+        gsap.to(this, {
+            duration: 0.3,
+            scale: 1.05,
+            boxShadow: "0 20px 40px rgba(157, 78, 221, 0.6)",
+            ease: "power2.out"
+        });
     });
     
     startBtn.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0) scale(1)';
+        gsap.to(this, {
+            duration: 0.3,
+            scale: 1,
+            boxShadow: "0 10px 30px rgba(157, 78, 221, 0.4)",
+            ease: "power2.in"
+        });
     });
     
-    // إضافة تأثير الضغط للزر
-    startBtn.addEventListener('mousedown', function() {
-        this.style.transform = 'translateY(-1px) scale(0.98)';
-    });
-    
-    startBtn.addEventListener('mouseup', function() {
-        this.style.transform = 'translateY(-3px) scale(1.05)';
-    });
-    
-    // التحكم في الصوت عند تغيير التبويب
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            if (audio && !audio.paused) {
-                audio.pause();
-            }
-        } else {
-            if (audio && audio.paused && timeLeft > 0 && timeLeft < totalTime) {
-                audio.play().catch(e => console.log('خطأ في استئناف الصوت:', e));
-            }
-        }
-    });
-    
-    // منع إعادة التحميل بالخطأ
-    window.onbeforeunload = function() {
-        if (timeLeft > 0 && timeLeft < totalTime) {
-            return 'هل أنت متأكد من المغادرة؟ سيتوقف التحميل.';
-        }
-    };
-    
-    // إضافة استجابة للمفاتيح
+    // دعم الضغط بالمسافة أو Enter
     document.addEventListener('keydown', function(e) {
-        if (e.code === 'Space' || e.code === 'Enter') {
-            if (startScreen.style.display !== 'none') {
-                startBtn.click();
-            }
-        }
-        
-        if (e.code === 'Escape') {
-            resetLoader();
+        if ((e.code === 'Space' || e.code === 'Enter') && startScreen.style.display !== 'none') {
+            startBtn.click();
         }
     });
     
-    // التحقق من دعم الويب الجل
-    if ('audioContext' in window || 'webkitAudioContext' in window) {
-        console.log('المتصفح يدعم Web Audio API');
-    }
-    
-    // تهيئة حجم الخط للاستجابة
-    function adjustFontSize() {
+    // تحسين للشاشات المختلفة
+    function adjustLayout() {
         const width = window.innerWidth;
-        const baseSize = 16;
+        const height = window.innerHeight;
         
         if (width < 480) {
             document.documentElement.style.fontSize = '14px';
@@ -286,12 +245,17 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             document.documentElement.style.fontSize = '16px';
         }
+        
+        // تعديل للشاشات الطويلة
+        if (height > 800) {
+            loaderContainer.style.bottom = '20vh';
+            timerElement.style.bottom = '8vh';
+        }
     }
     
-    // استدعاء ضبط حجم الخط
-    adjustFontSize();
-    window.addEventListener('resize', adjustFontSize);
+    adjustLayout();
+    window.addEventListener('resize', adjustLayout);
     
     // تهيئة الصفحة
-    console.log('صفحة التحميل جاهزة!');
+    console.log('موقع GR جاهز للعمل!');
 });
