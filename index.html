@@ -6,13 +6,30 @@
     <title>جاري التحميل...</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="Accessories/photos/favicon.ico" type="image/x-icon">
+    
+    <!-- إضافة meta tags مهمة للصوت -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#ffbf48">
 </head>
 <body>
     <!-- الخلفية -->
     <div class="background"></div>
     
-    <!-- المحمل (Loader) -->
-    <div class="loader-container">
+    <!-- شاشة البدء التي تتطلب تفاعل المستخدم -->
+    <div class="start-screen" id="startScreen">
+        <div class="start-content">
+            <h1>مرحباً بك! 👋</h1>
+            <p>انقر على الزر أدناه لبدء التحميل والصوت</p>
+            <button class="start-btn" id="startBtn">
+                🎵 بدء التحميل
+            </button>
+            <p class="hint">سيتم تشغيل الصوت تلقائياً</p>
+        </div>
+    </div>
+    
+    <!-- المحمل (مخفي في البداية) -->
+    <div class="loader-container" id="loaderContainer" style="display: none;">
         <!-- From Uiverse.io by andrew-manzyk -->
         <div class="loader">
             <svg width="100" height="100" viewBox="0 0 100 100">
@@ -39,7 +56,7 @@
     </div>
 
     <!-- مؤقت التقدم -->
-    <div class="timer">
+    <div class="timer" id="timer" style="display: none;">
         <div class="progress-bar">
             <div class="progress-fill"></div>
         </div>
@@ -47,9 +64,10 @@
     </div>
 
     <!-- الصوت (مخفي) -->
-    <audio id="loading-sound" loop>
+    <audio id="loading-sound" preload="auto">
         <source src="Accessories/voices/sound.mp3" type="audio/mpeg">
         <source src="Accessories/voices/sound.ogg" type="audio/ogg">
+        <source src="Accessories/voices/sound.wav" type="audio/wav">
         متصفحك لا يدعم تشغيل الصوت
     </audio>
 
@@ -58,4 +76,4 @@
 
     <script src="script.js"></script>
 </body>
-      </html>
+</html>
