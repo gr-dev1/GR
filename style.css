@@ -1,19 +1,123 @@
-/* إعدادات عامة */
+/* =========================================== */
+/* RESET وإعدادات أساسية */
+/* =========================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --primary-color: #ffbf48;
+    --secondary-color: #be4a1d;
+    --dark-bg: #0a0a14;
+    --light-text: #ffffff;
+    --dark-text: #333333;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
     height: 100vh;
+    width: 100vw;
     overflow: hidden;
     position: relative;
-    color: #fff;
+    color: var(--light-text);
+    background: var(--dark-bg);
+    line-height: 1.6;
 }
 
-/* الخلفية */
+/* =========================================== */
+/* شاشة البدء */
+/* =========================================== */
+.start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.9)),
+        url('Accessories/photos/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 1s ease;
+}
+
+.start-content {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 3rem;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 191, 72, 0.2);
+    max-width: 90%;
+    width: 500px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.start-content h1 {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(255, 191, 72, 0.5);
+}
+
+.start-content p {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    margin-bottom: 2rem;
+    color: #e0e0e0;
+}
+
+.start-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 10px 30px rgba(255, 191, 72, 0.3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 200px;
+}
+
+.start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(255, 191, 72, 0.4);
+}
+
+.start-btn:active {
+    transform: translateY(-1px);
+}
+
+.hint {
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    color: #aaa;
+    font-style: italic;
+}
+
+/* =========================================== */
+/* الخلفية الرئيسية */
+/* =========================================== */
 .background {
     position: fixed;
     top: 0;
@@ -21,77 +125,31 @@ body {
     width: 100%;
     height: 100%;
     background: 
-        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        linear-gradient(rgba(10, 10, 20, 0.9), rgba(5, 5, 15, 0.95)),
         url('Accessories/photos/background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     z-index: -1;
 }
 
-/* حاوية المحمل */
+/* =========================================== */
+/* المحمل (Loader) - متجاوب */
+/* =========================================== */
 .loader-container {
     position: fixed;
-    bottom: 10%;
+    bottom: 15vh;
     right: 50%;
     transform: translateX(50%);
     text-align: center;
     z-index: 1000;
-}
-
-/* نص التحميل */
-.loading-text {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.loading-text h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #ffbf48;
-    text-shadow: 0 0 10px rgba(255, 191, 72, 0.5);
-}
-
-.loading-text p {
-    font-size: 16px;
-    color: #ccc;
-}
-
-/* مؤقت التقدم */
-.timer {
-    position: fixed;
-    bottom: 20px;
-    right: 50%;
-    transform: translateX(50%);
-    text-align: center;
-    width: 300px;
-}
-
-.progress-bar {
     width: 100%;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 10px;
+    max-width: 400px;
+    padding: 0 20px;
 }
 
-.progress-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #ffbf48, #be4a1d);
-    border-radius: 5px;
-    transition: width 1s linear;
-}
-
-.time-left {
-    font-size: 18px;
-    font-weight: bold;
-    color: #ffbf48;
-}
-
-/* ستايل المحمل المعدل */
-/* From Uiverse.io by andrew-manzyk */
+/* From Uiverse.io by andrew-manzyk - معدل للاستجابة */
 .loader {
     --color-one: #ffbf48;
     --color-two: #be4a1d;
@@ -99,7 +157,8 @@ body {
     --color-four: #bf4a1d80;
     --color-five: #ffbf4740;
     --time-animation: 2s;
-    --size: 0.8; /* تصغير حجمه قليلاً */
+    --size: 1;
+    
     position: relative;
     border-radius: 50%;
     transform: scale(var(--size));
@@ -107,6 +166,11 @@ body {
         0 0 25px 0 var(--color-three),
         0 20px 50px 0 var(--color-four);
     animation: colorize calc(var(--time-animation) * 3) ease-in-out infinite;
+    
+    /* جعل الحجم متجاوباً */
+    width: clamp(80px, 20vw, 120px);
+    height: clamp(80px, 20vw, 120px);
+    margin: 0 auto;
 }
 
 .loader::before {
@@ -114,11 +178,11 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    border-top: solid 1px var(--color-one);
-    border-bottom: solid 1px var(--color-two);
+    border-top: solid 2px var(--color-one);
+    border-bottom: solid 2px var(--color-two);
     background: linear-gradient(180deg, var(--color-five), var(--color-four));
     box-shadow:
         inset 0 10px 10px 0 var(--color-three),
@@ -126,8 +190,8 @@ body {
 }
 
 .loader .box {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(
         180deg,
         var(--color-one) 30%,
@@ -139,114 +203,245 @@ body {
 
 .loader svg {
     position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
-.loader svg #clipping {
-    filter: contrast(15);
-    animation: roundness calc(var(--time-animation) / 2) linear infinite;
+/* =========================================== */
+/* نص التحميل - متجاوب */
+/* =========================================== */
+.loading-text {
+    margin-top: 1.5rem;
+    text-align: center;
 }
 
-.loader svg #clipping polygon {
-    filter: blur(7px);
+.loading-text h2 {
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(255, 191, 72, 0.5);
+    font-weight: 600;
 }
 
-.loader svg #clipping polygon:nth-child(1) {
-    transform-origin: 75% 25%;
-    transform: rotate(90deg);
+.loading-text p {
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    color: #ccc;
+    opacity: 0.9;
 }
 
-.loader svg #clipping polygon:nth-child(2) {
-    transform-origin: 50% 50%;
-    animation: rotation var(--time-animation) linear infinite reverse;
+/* =========================================== */
+/* مؤقت التقدم - متجاوب */
+/* =========================================== */
+.timer {
+    position: fixed;
+    bottom: 5vh;
+    right: 50%;
+    transform: translateX(50%);
+    text-align: center;
+    width: min(90%, 400px);
+    z-index: 1000;
 }
 
-.loader svg #clipping polygon:nth-child(3) {
-    transform-origin: 50% 60%;
-    animation: rotation var(--time-animation) linear infinite;
-    animation-delay: calc(var(--time-animation) / -3);
+.progress-bar {
+    width: 100%;
+    height: clamp(8px, 1.5vw, 12px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.loader svg #clipping polygon:nth-child(4) {
-    transform-origin: 40% 40%;
-    animation: rotation var(--time-animation) linear infinite reverse;
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ffbf48, #be4a1d);
+    border-radius: 10px;
+    transition: width 1s linear;
+    box-shadow: 0 0 10px rgba(255, 191, 72, 0.5);
 }
 
-.loader svg #clipping polygon:nth-child(5) {
-    transform-origin: 40% 40%;
-    animation: rotation var(--time-animation) linear infinite reverse;
-    animation-delay: calc(var(--time-animation) / -2);
+.time-left {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-weight: bold;
+    color: var(--primary-color);
+    display: inline-block;
+    min-width: 40px;
+    text-shadow: 0 0 8px rgba(255, 191, 72, 0.3);
 }
 
-.loader svg #clipping polygon:nth-child(6) {
-    transform-origin: 60% 40%;
-    animation: rotation var(--time-animation) linear infinite;
+.timer::after {
+    content: "ثانية";
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    color: #aaa;
+    margin-right: 5px;
 }
 
-.loader svg #clipping polygon:nth-child(7) {
-    transform-origin: 60% 40%;
-    animation: rotation var(--time-animation) linear infinite;
-    animation-delay: calc(var(--time-animation) / -1.5);
+/* =========================================== */
+/* رسوميات إضافية */
+/* =========================================== */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
 }
 
+.particle {
+    position: absolute;
+    background: var(--primary-color);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: float 15s infinite linear;
+}
+
+/* =========================================== */
+/* تأثيرات الحركة */
+/* =========================================== */
 @keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @keyframes roundness {
-    0% {
-        filter: contrast(15);
-    }
-    20% {
-        filter: contrast(3);
-    }
-    40% {
-        filter: contrast(3);
-    }
-    60% {
-        filter: contrast(15);
-    }
-    100% {
-        filter: contrast(15);
-    }
+    0% { filter: contrast(15); }
+    20% { filter: contrast(3); }
+    40% { filter: contrast(3); }
+    60% { filter: contrast(15); }
+    100% { filter: contrast(15); }
 }
 
 @keyframes colorize {
-    0% {
-        filter: hue-rotate(0deg);
-    }
-    20% {
-        filter: hue-rotate(-30deg);
-    }
-    40% {
-        filter: hue-rotate(-60deg);
-    }
-    60% {
-        filter: hue-rotate(-90deg);
-    }
-    80% {
-        filter: hue-rotate(-45deg);
-    }
-    100% {
-        filter: hue-rotate(0deg);
-    }
+    0% { filter: hue-rotate(0deg); }
+    20% { filter: hue-rotate(-30deg); }
+    40% { filter: hue-rotate(-60deg); }
+    60% { filter: hue-rotate(-90deg); }
+    80% { filter: hue-rotate(-45deg); }
+    100% { filter: hue-rotate(0deg); }
 }
 
-/* تأثيرات الإخفاء */
-.fade-out {
-    animation: fadeOut 3s ease-in-out forwards;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes fadeOut {
-    0% {
-        opacity: 1;
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* =========================================== */
+@media (max-width: 768px) {
+    .start-content {
+        padding: 2rem;
+        margin: 1rem;
     }
-    100% {
-        opacity: 0;
-        visibility: hidden;
+    
+    .loader-container {
+        bottom: 20vh;
+    }
+    
+    .loader {
+        --size: 0.8;
+    }
+    
+    .start-btn {
+        padding: 0.8rem 2rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* =========================================== */
+/* أجهزة صغيرة جداً */
+/* =========================================== */
+@media (max-width: 480px) {
+    .start-content {
+        padding: 1.5rem;
+    }
+    
+    .loader-container {
+        bottom: 25vh;
+    }
+    
+    .loader {
+        --size: 0.7;
+        width: 70px;
+        height: 70px;
+    }
+    
+    .loading-text h2 {
+        font-size: 1.2rem;
+    }
+    
+    .timer {
+        bottom: 10vh;
+    }
+    
+    .start-btn {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+        min-width: 180px;
+    }
+}
+
+/* =========================================== */
+/* أجهزة أفقية */
+/* =========================================== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .loader-container {
+        bottom: 10vh;
+        transform: translateX(50%) scale(0.8);
+    }
+    
+    .timer {
+        bottom: 2vh;
+    }
+    
+    .start-content {
+        padding: 1rem;
+        max-width: 80%;
+    }
+}
+
+/* =========================================== */
+/* شاشات كبيرة */
+/* =========================================== */
+@media (min-width: 1200px) {
+    .loader {
+        --size: 1.2;
+    }
+    
+    .loader-container {
+        max-width: 500px;
+    }
+}
+
+/* =========================================== */
+/* دعم الأجهزة المختلفة */
+/* =========================================== */
+@media (pointer: coarse) {
+    .start-btn {
+        padding: 1rem 2rem;
+        min-height: 50px;
+    }
+}
+
+/* دعم Safari iOS */
+@supports (-webkit-touch-callout: none) {
+    .background {
+        background-attachment: scroll;
+    }
+    
+    .start-content {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
 }
