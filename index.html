@@ -3,34 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جاري التحميل...</title>
+    <title>GR - الأقوى في ببجي</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="Accessories/photos/favicon.ico" type="image/x-icon">
     
-    <!-- إضافة meta tags مهمة للصوت -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#ffbf48">
+    <!-- إضافة Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- إضافة Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- إضافة Animate.css للأنيميشن -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <style>
+        /* أنيميشن مخصص */
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px #9d4edd, 0 0 20px #9d4edd, 0 0 30px #9d4edd; }
+            50% { text-shadow: 0 0 20px #7b2cbf, 0 0 30px #7b2cbf, 0 0 40px #7b2cbf; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes borderGlow {
+            0%, 100% { border-color: rgba(157, 78, 221, 0.5); box-shadow: 0 0 15px rgba(157, 78, 221, 0.3); }
+            50% { border-color: rgba(157, 78, 221, 0.8); box-shadow: 0 0 25px rgba(157, 78, 221, 0.5); }
+        }
+    </style>
 </head>
 <body>
     <!-- الخلفية -->
     <div class="background"></div>
     
-    <!-- شاشة البدء التي تتطلب تفاعل المستخدم -->
+    <!-- شاشة البدء -->
     <div class="start-screen" id="startScreen">
-        <div class="start-content">
-            <h1>مرحباً بك! 👋</h1>
-            <p>انقر على الزر أدناه لبدء التحميل والصوت</p>
-            <button class="start-btn" id="startBtn">
-                🎵 بدء التحميل
+        <div class="start-content animate__animated animate__fadeIn">
+            <!-- شعار GR متحرك -->
+            <div class="gr-logo animate__animated animate__pulse animate__infinite" style="animation-duration: 2s;">
+                <span class="gr-text">GR</span>
+                <div class="logo-crown">
+                    <i class="fas fa-crown"></i>
+                </div>
+            </div>
+            
+            <h1 class="welcome-title animate__animated animate__slideInDown">
+                <span class="highlight">أهلاً بك في</span>
+                <span class="gr-name">GR</span>
+            </h1>
+            
+            <p class="welcome-subtitle animate__animated animate__fadeInUp animate__delay-1s">
+                <i class="fas fa-trophy"></i>
+                الأقوى في عالم ببجي
+                <i class="fas fa-trophy"></i>
+            </p>
+            
+            <div class="definition animate__animated animate__fadeInUp animate__delay-2s">
+                <p>
+                    <i class="fas fa-star"></i>
+                    فريق GR - ليس مجرد كلان، إنه أسطورة في عالم ببجي
+                    <i class="fas fa-star"></i>
+                </p>
+            </div>
+            
+            <button class="start-btn animate__animated animate__pulse animate__infinite" id="startBtn" style="animation-duration: 1.5s;">
+                <i class="fas fa-play"></i>
+                ابدأ الرحلة
+                <i class="fas fa-chevron-left"></i>
             </button>
-            <p class="hint">سيتم تشغيل الصوت تلقائياً</p>
+            
+            <!-- جسيمات متحركة -->
+            <div class="floating-elements">
+                <div class="floating-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="floating-icon">
+                    <i class="fas fa-crosshairs"></i>
+                </div>
+                <div class="floating-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+            </div>
         </div>
     </div>
     
     <!-- المحمل (مخفي في البداية) -->
     <div class="loader-container" id="loaderContainer" style="display: none;">
-        <!-- From Uiverse.io by andrew-manzyk -->
+        <!-- المحمل المعدل -->
         <div class="loader">
             <svg width="100" height="100" viewBox="0 0 100 100">
                 <defs>
@@ -50,8 +117,8 @@
         
         <!-- نص التحميل -->
         <div class="loading-text">
-            <h2>جاري التحميل...</h2>
-            <p>الرجاء الانتظار 12 ثانية</p>
+            <h2>جاري التحضير للرحلة...</h2>
+            <p>فريق GR يستعد لاستقبالك</p>
         </div>
     </div>
 
@@ -63,17 +130,17 @@
         <span class="time-left">12</span> ثانية
     </div>
 
-    <!-- الصوت (مخفي) -->
+    <!-- الصوت -->
     <audio id="loading-sound" preload="auto">
         <source src="Accessories/voices/sound.mp3" type="audio/mpeg">
         <source src="Accessories/voices/sound.ogg" type="audio/ogg">
         <source src="Accessories/voices/sound.wav" type="audio/wav">
-        متصفحك لا يدعم تشغيل الصوت
     </audio>
 
-    <!-- تحميل الصفحة التالية مسبقاً -->
+    <!-- الصفحة التالية -->
     <iframe src="next-page.html" style="display:none;" id="nextPage"></iframe>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
