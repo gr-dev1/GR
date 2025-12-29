@@ -15,36 +15,6 @@
     
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    
-    <style>
-        /* أنيميشن مخصص */
-        @keyframes floatEffect {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-        
-        @keyframes glowPulse {
-            0%, 100% { 
-                box-shadow: 0 0 20px rgba(157, 78, 221, 0.3),
-                            0 0 40px rgba(157, 78, 221, 0.1);
-            }
-            50% { 
-                box-shadow: 0 0 30px rgba(157, 78, 221, 0.5),
-                            0 0 60px rgba(157, 78, 221, 0.2);
-            }
-        }
-        
-        @keyframes neonBorder {
-            0%, 100% { border-color: rgba(157, 78, 221, 0.3); }
-            50% { border-color: rgba(157, 78, 221, 0.8); }
-        }
-        
-        @keyframes sparkle {
-            0% { opacity: 0; transform: scale(0) rotate(0deg); }
-            50% { opacity: 1; transform: scale(1) rotate(180deg); }
-            100% { opacity: 0; transform: scale(0) rotate(360deg); }
-        }
-    </style>
 </head>
 <body>
     <!-- الخلفية الزجاجية -->
@@ -58,91 +28,94 @@
         <!-- طبقة تأثير زجاجي -->
         <div class="glass-overlay"></div>
         
-        <div class="welcome-content">
-            <!-- الشعار الرئيسي -->
-            <div class="main-logo">
-                <div class="logo-circle">
-                    <span class="logo-glow">GR</span>
+        <!-- المحتوى الرئيسي -->
+        <div class="welcome-container">
+            <div class="welcome-content">
+                <!-- الشعار الرئيسي -->
+                <div class="main-logo">
+                    <div class="logo-circle">
+                        <span class="logo-text">GR</span>
+                    </div>
+                    <div class="crown-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
                 </div>
-                <div class="crown-effect">
-                    <i class="fas fa-crown"></i>
+                
+                <!-- العنوان الرئيسي -->
+                <div class="title-section">
+                    <h1 class="main-title">
+                        <span class="welcome-text">أهلاً بك في</span>
+                        <span class="gr-name">GR</span>
+                    </h1>
+                    <div class="title-line"></div>
                 </div>
-            </div>
-            
-            <!-- العنوان الرئيسي -->
-            <div class="title-section">
-                <h1 class="main-title">
-                    <span class="welcome-text">أهلاً بك في</span>
-                    <span class="gr-glow">GR</span>
-                </h1>
-                <div class="title-underline"></div>
-            </div>
-            
-            <!-- الوصف -->
-            <div class="description-section">
-                <p class="tagline">
-                    <i class="fas fa-star star-icon"></i>
-                    ليس مجرد كلان .. إنه أسطورة
-                    <i class="fas fa-star star-icon"></i>
-                </p>
-                <div class="motto">
-                    <i class="fas fa-quote-right quote-icon"></i>
-                    <span>الأقوى في عالم ببجي</span>
-                    <i class="fas fa-quote-left quote-icon"></i>
+                
+                <!-- الوصف -->
+                <div class="description-section">
+                    <div class="tagline-box">
+                        <p class="tagline">
+                            <i class="fas fa-star"></i>
+                            ليس مجرد كلان .. إنه أسطورة
+                            <i class="fas fa-star"></i>
+                        </p>
+                    </div>
+                    <div class="slogan">
+                        <p class="slogan-text">
+                            <i class="fas fa-quote-right"></i>
+                            الأقوى في عالم ببجي
+                            <i class="fas fa-quote-left"></i>
+                        </p>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- زر البدء -->
-            <button class="start-button" id="startButton">
-                <div class="button-content">
-                    <i class="fas fa-play-circle"></i>
-                    <span>ابدأ الرحلة</span>
+                
+                <!-- زر البدء -->
+                <div class="button-container">
+                    <button class="start-btn" id="startButton">
+                        <span class="btn-text">
+                            <i class="fas fa-play"></i>
+                            ابدأ الرحلة
+                        </span>
+                        <span class="btn-glow"></span>
+                    </button>
                 </div>
-                <div class="button-glow"></div>
-            </button>
-            
-            <!-- العناصر الجانبية الزخرفية -->
-            <div class="decorative-elements">
-                <div class="decor-circle circle-1"></div>
-                <div class="decor-circle circle-2"></div>
-                <div class="decor-circle circle-3"></div>
-                <div class="decor-line line-1"></div>
-                <div class="decor-line line-2"></div>
             </div>
         </div>
         
-        <!-- الزاوية اليمنى العليا -->
-        <div class="corner-decor top-right">
-            <div class="corner-element"></div>
-            <div class="corner-element"></div>
-            <div class="corner-element"></div>
+        <!-- الزخارف الجانبية -->
+        <div class="decorations">
+            <div class="decoration deco-1"></div>
+            <div class="decoration deco-2"></div>
+            <div class="decoration deco-3"></div>
+            <div class="decoration deco-4"></div>
+            <div class="decoration deco-5"></div>
+            <div class="decoration deco-6"></div>
         </div>
         
-        <!-- الزاوية اليسرى السفلى -->
-        <div class="corner-decor bottom-left">
-            <div class="corner-element"></div>
-            <div class="corner-element"></div>
-            <div class="corner-element"></div>
+        <!-- الزوايا الزخرفية -->
+        <div class="corner-decor top-left-corner">
+            <div class="corner-line"></div>
+            <div class="corner-dot"></div>
+        </div>
+        
+        <div class="corner-decor bottom-right-corner">
+            <div class="corner-line"></div>
+            <div class="corner-dot"></div>
         </div>
     </div>
     
     <!-- شاشة التحميل -->
     <div class="loading-screen" id="loadingScreen">
-        <!-- طبقة زجاجية -->
-        <div class="glass-layer"></div>
-        
-        <!-- المحمل المعدل -->
-        <div class="loading-content">
-            <div class="loader-wrapper">
-                <!-- الدائرة الرئيسية -->
-                <div class="loader-circle">
-                    <div class="circle-inner"></div>
-                    <div class="circle-outer"></div>
-                    <div class="circle-spin"></div>
+        <div class="loading-container">
+            <!-- المحمل المعدل -->
+            <div class="loader-section">
+                <div class="purple-loader">
+                    <div class="loader-core"></div>
+                    <div class="loader-ring"></div>
+                    <div class="loader-glow"></div>
                 </div>
                 
                 <!-- النصوص -->
-                <div class="loading-info">
+                <div class="loading-text-section">
                     <h3 class="loading-title">
                         <i class="fas fa-spinner fa-spin"></i>
                         جاري الإعداد للرحلة
@@ -152,24 +125,24 @@
             </div>
             
             <!-- شريط التقدم -->
-            <div class="progress-container">
-                <div class="progress-track">
-                    <div class="progress-fill" id="progressFill"></div>
-                    <div class="progress-glow"></div>
-                </div>
-                <div class="progress-text">
-                    <span class="time-count" id="timeCount">12</span>
-                    <span class="time-label">ثانية</span>
+            <div class="progress-section">
+                <div class="progress-wrapper">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span class="time-count" id="timeCount">12</span>
+                        <span class="time-label">ثانية</span>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- الزخارف الجانبية -->
-        <div class="loading-decor">
-            <div class="decor-dot dot-1"></div>
-            <div class="decor-dot dot-2"></div>
-            <div class="decor-dot dot-3"></div>
-            <div class="decor-dot dot-4"></div>
+        <!-- زخارف التحميل -->
+        <div class="loading-decorations">
+            <div class="loading-dot dot-1"></div>
+            <div class="loading-dot dot-2"></div>
+            <div class="loading-dot dot-3"></div>
         </div>
     </div>
 
@@ -179,7 +152,7 @@
         <source src="Accessories/voices/sound.ogg" type="audio/ogg">
     </audio>
 
-    <!-- الصفحة التالية مخفية -->
+    <!-- الصفحة التالية -->
     <iframe src="next-page.html" style="display:none;" id="nextPage"></iframe>
 
     <!-- GSAP Library -->
