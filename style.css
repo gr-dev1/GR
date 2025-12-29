@@ -1,38 +1,37 @@
 /* =========================================== */
-/* متغيرات الألوان المعدلة */
+/* متغيرات الألوان */
 /* =========================================== */
 :root {
     /* الألوان البنفسجية */
-    --purple-dark: #2d1b69;      /* بنفسجي غامق */
-    --purple-medium: #5a189a;    /* بنفسجي متوسط */
-    --purple-light: #9d4edd;     /* بنفسجي فاتح */
-    --purple-neon: #c77dff;      /* بنفسجي نيون */
-    --pink-neon: #ff6bff;        /* وردي نيون */
+    --purple-dark: #2d1b69;
+    --purple-medium: #5a189a;
+    --purple-light: #9d4edd;
+    --purple-bright: #c77dff;
+    --pink-neon: #ff6bff;
     
-    /* تدرجات الألوان */
+    /* تدرجات */
     --gradient-purple: linear-gradient(135deg, var(--purple-dark), var(--purple-light));
-    --gradient-neon: linear-gradient(135deg, var(--purple-neon), var(--pink-neon));
-    --gradient-dark: linear-gradient(135deg, #0d0d1a, #1a0d3a);
+    --gradient-neon: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+    --gradient-dark: linear-gradient(135deg, #0a0a14, #1a0d3a);
     
     /* ألوان الشفافية */
-    --glass-dark: rgba(45, 27, 105, 0.15);
-    --glass-light: rgba(157, 78, 221, 0.1);
+    --glass-bg: rgba(45, 27, 105, 0.2);
     --glass-border: rgba(157, 78, 221, 0.3);
-    --glass-glow: rgba(157, 78, 221, 0.2);
+    --glass-glow: rgba(157, 78, 221, 0.1);
     
     /* ألوان النص */
     --text-white: #ffffff;
     --text-glow: #e0aaff;
-    --text-light: #f8f9fa;
+    --text-light: #f5f5f5;
     
     /* الظلال */
-    --shadow-light: 0 8px 32px rgba(157, 78, 221, 0.1);
-    --shadow-medium: 0 15px 40px rgba(157, 78, 221, 0.2);
-    --shadow-heavy: 0 25px 60px rgba(157, 78, 221, 0.3);
+    --shadow-light: 0 4px 20px rgba(157, 78, 221, 0.2);
+    --shadow-medium: 0 8px 30px rgba(157, 78, 221, 0.3);
+    --shadow-heavy: 0 12px 40px rgba(157, 78, 221, 0.4);
 }
 
 /* =========================================== */
-/* إعدادات عامة */
+/* إعادة الضبط والإعدادات العامة */
 /* =========================================== */
 * {
     margin: 0;
@@ -47,19 +46,18 @@ html {
 }
 
 body {
-    font-family: 'Cairo', sans-serif;
-    height: 100vh;
-    width: 100vw;
+    font-family: 'Cairo', 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    width: 100%;
     overflow: hidden;
     position: relative;
     color: var(--text-white);
     background: var(--gradient-dark);
-    line-height: 1.6;
-    font-weight: 400;
+    line-height: 1.5;
 }
 
 /* =========================================== */
-/* الخلفية الزجاجية والنجوم */
+/* الخلفية والنجوم */
 /* =========================================== */
 .glass-background {
     position: fixed;
@@ -68,14 +66,13 @@ body {
     width: 100%;
     height: 100%;
     background: 
-        linear-gradient(var(--glass-dark), var(--glass-dark)),
+        linear-gradient(rgba(10, 10, 20, 0.7), rgba(5, 5, 15, 0.9)),
         url('Accessories/photos/background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
-    filter: brightness(0.6) contrast(1.1) blur(1px);
     z-index: -2;
+    filter: brightness(0.7);
 }
 
 .star-field {
@@ -84,34 +81,21 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(157, 78, 221, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 107, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(199, 125, 255, 0.1) 0%, transparent 50%);
     z-index: -1;
+    animation: starsMove 20s linear infinite;
 }
 
-.star-field::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.3) 1%, transparent 50%),
-        radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.2) 1%, transparent 50%),
-        radial-gradient(2px 2px at 30% 40%, rgba(255, 255, 255, 0.4) 1%, transparent 50%),
-        radial-gradient(1px 1px at 40% 50%, rgba(255, 255, 255, 0.3) 1%, transparent 50%),
-        radial-gradient(2px 2px at 50% 60%, rgba(255, 255, 255, 0.5) 1%, transparent 50%),
-        radial-gradient(1px 1px at 60% 70%, rgba(255, 255, 255, 0.2) 1%, transparent 50%),
-        radial-gradient(2px 2px at 70% 80%, rgba(255, 255, 255, 0.4) 1%, transparent 50%),
-        radial-gradient(1px 1px at 80% 90%, rgba(255, 255, 255, 0.3) 1%, transparent 50%);
-    animation: starsTwinkle 8s infinite alternate;
-}
-
-@keyframes starsTwinkle {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
+@keyframes starsMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-50px, -50px); }
 }
 
 /* =========================================== */
-/* شاشة الترحيب */
+/* شاشة الترحيب - مصححة */
 /* =========================================== */
 .welcome-screen {
     position: fixed;
@@ -131,72 +115,96 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--glass-light);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     z-index: 1;
 }
 
-.welcome-content {
+.welcome-container {
     position: relative;
     z-index: 2;
-    text-align: center;
-    padding: 3rem;
+    width: 100%;
     max-width: 800px;
-    width: 90%;
+    padding: 2rem;
+}
+
+.welcome-content {
+    background: rgba(45, 27, 105, 0.3);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 25px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-heavy);
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-content::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: var(--gradient-neon);
+    border-radius: 27px;
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.5;
 }
 
 /* الشعار */
 .main-logo {
     position: relative;
-    margin: 0 auto 3rem;
-    width: 180px;
-    height: 180px;
-    animation: floatEffect 6s ease-in-out infinite;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 2rem;
 }
 
 .logo-circle {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: var(--glass-light);
-    backdrop-filter: blur(10px);
-    border: 2px solid var(--glass-border);
+    background: var(--gradient-purple);
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     box-shadow: 
-        var(--shadow-medium),
-        inset 0 0 50px var(--glass-glow);
-    animation: neonBorder 3s ease-in-out infinite;
+        0 0 40px var(--purple-light),
+        inset 0 0 20px rgba(255, 255, 255, 0.2);
+    animation: logoPulse 3s ease-in-out infinite;
 }
 
-.logo-glow {
-    font-size: 4.5rem;
+@keyframes logoPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.logo-text {
+    font-size: 3.5rem;
     font-weight: 900;
-    background: var(--gradient-neon);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 30px var(--purple-neon);
-    letter-spacing: -3px;
+    color: white;
+    text-shadow: 0 0 20px var(--purple-bright);
+    letter-spacing: -2px;
 }
 
-.crown-effect {
+.crown-icon {
     position: absolute;
-    top: -25px;
+    top: -15px;
     left: 50%;
     transform: translateX(-50%);
     color: gold;
-    font-size: 3rem;
-    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5));
-    animation: crownFloat 4s ease-in-out infinite;
+    font-size: 2.5rem;
+    filter: drop-shadow(0 0 10px gold);
+    animation: crownBounce 2s ease-in-out infinite;
 }
 
-@keyframes crownFloat {
-    0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
-    25% { transform: translateX(-50%) translateY(-10px) rotate(5deg); }
-    75% { transform: translateX(-50%) translateY(5px) rotate(-5deg); }
+@keyframes crownBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-10px); }
 }
 
 /* العنوان */
@@ -205,147 +213,169 @@ body {
 }
 
 .main-title {
-    font-size: clamp(2.2rem, 7vw, 4rem);
+    font-size: 2.8rem;
     font-weight: 800;
     margin-bottom: 1rem;
+    line-height: 1.2;
 }
 
 .welcome-text {
     display: block;
     color: var(--text-white);
     margin-bottom: 0.5rem;
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 600;
 }
 
-.gr-glow {
+.gr-name {
     display: inline-block;
     background: var(--gradient-neon);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    font-size: 3.5rem;
     font-weight: 900;
-    text-shadow: 0 0 30px var(--purple-neon);
-    padding: 0 15px;
-    position: relative;
+    text-shadow: 0 0 30px var(--purple-bright);
+    padding: 0 10px;
 }
 
-.gr-glow::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 15%;
-    width: 70%;
-    height: 4px;
-    background: var(--gradient-neon);
-    border-radius: 2px;
-    animation: glowPulse 2s ease-in-out infinite;
-}
-
-.title-underline {
+.title-line {
     width: 100px;
     height: 3px;
     background: var(--gradient-neon);
     margin: 1rem auto;
     border-radius: 2px;
-    animation: neonBorder 3s ease-in-out infinite;
+    animation: lineGlow 2s ease-in-out infinite;
+}
+
+@keyframes lineGlow {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
 }
 
 /* الوصف */
 .description-section {
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
+}
+
+.tagline-box {
+    background: rgba(157, 78, 221, 0.1);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(5px);
 }
 
 .tagline {
-    font-size: clamp(1.3rem, 4vw, 1.9rem);
+    font-size: 1.4rem;
     color: var(--text-glow);
-    margin-bottom: 1.5rem;
     font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
 }
 
-.star-icon {
-    color: var(--purple-neon);
-    animation: sparkle 2s linear infinite;
+.tagline i {
+    color: var(--purple-bright);
+    animation: starSpin 2s linear infinite;
 }
 
-.motto {
-    font-size: clamp(1.1rem, 3vw, 1.5rem);
+@keyframes starSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.slogan {
+    margin-top: 1rem;
+}
+
+.slogan-text {
+    font-size: 1.2rem;
     color: var(--text-light);
     font-style: italic;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    opacity: 0.9;
+    gap: 10px;
 }
 
-.quote-icon {
+.slogan-text i {
     color: var(--purple-light);
-    font-size: 1.2rem;
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
-/* زر البدء */
-.start-button {
-    position: relative;
-    background: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
+/* زر البدء - مصحح */
+.button-container {
     margin-top: 2rem;
-    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
 }
 
-.button-content {
+.start-btn {
     position: relative;
-    z-index: 2;
     background: var(--gradient-neon);
     color: white;
-    padding: 1.5rem 4rem;
-    font-size: 1.5rem;
+    border: none;
+    padding: 1.2rem 3.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    border-radius: 60px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+    gap: 12px;
+    min-width: 220px;
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    z-index: 2;
 }
 
-.button-glow {
+.btn-text {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.btn-glow {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 110%;
-    height: 120%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: var(--gradient-neon);
-    border-radius: 70px;
-    filter: blur(20px);
-    opacity: 0.5;
+    border-radius: 50px;
+    filter: blur(15px);
+    opacity: 0.6;
     z-index: 1;
-    animation: glowPulse 2s ease-in-out infinite;
+    animation: btnGlow 2s ease-in-out infinite;
 }
 
-.start-button:hover .button-content {
+@keyframes btnGlow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+}
+
+.start-btn:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-heavy);
 }
 
-.start-button:hover .button-glow {
-    opacity: 0.7;
-}
-
-.start-button:active .button-content {
+.start-btn:active {
     transform: translateY(-1px);
 }
 
-/* العناصر الزخرفية */
-.decorative-elements {
+.start-btn:hover .btn-glow {
+    opacity: 0.9;
+}
+
+/* الزخارف */
+.decorations {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -355,95 +385,104 @@ body {
     z-index: 1;
 }
 
-.decor-circle {
+.decoration {
     position: absolute;
-    border-radius: 50%;
     border: 1px solid var(--glass-border);
-    animation: floatEffect 8s ease-in-out infinite;
+    border-radius: 50%;
+    opacity: 0.3;
 }
 
-.circle-1 {
-    width: 80px;
-    height: 80px;
-    top: 10%;
-    left: 10%;
-    animation-delay: 0s;
-}
-
-.circle-2 {
+.deco-1 {
     width: 60px;
     height: 60px;
+    top: 10%;
+    left: 10%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.deco-2 {
+    width: 40px;
+    height: 40px;
     top: 70%;
     right: 15%;
-    animation-delay: 1s;
+    animation: float 8s ease-in-out infinite 1s;
 }
 
-.circle-3 {
-    width: 100px;
+.deco-3 {
+    width: 80px;
+    height: 80px;
+    bottom: 15%;
+    left: 20%;
+    animation: float 7s ease-in-out infinite 2s;
+}
+
+.deco-4 {
+    width: 30px;
+    height: 30px;
+    top: 30%;
+    right: 20%;
+    animation: float 5s ease-in-out infinite 0.5s;
+}
+
+.deco-5, .deco-6 {
+    width: 2px;
     height: 100px;
-    bottom: 10%;
-    left: 15%;
-    animation-delay: 2s;
+    background: linear-gradient(to bottom, transparent, var(--purple-light), transparent);
+    top: 50%;
 }
 
-.decor-line {
-    position: absolute;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--purple-neon), transparent);
-    animation: neonBorder 5s ease-in-out infinite;
-}
-
-.line-1 {
-    width: 200px;
-    top: 20%;
-    right: 5%;
-    transform: rotate(45deg);
-    animation-delay: 0.5s;
-}
-
-.line-2 {
-    width: 150px;
-    bottom: 25%;
+.deco-5 {
     left: 5%;
-    transform: rotate(-45deg);
-    animation-delay: 1.5s;
+    transform: translateY(-50%) rotate(45deg);
+    animation: linePulse 4s ease-in-out infinite;
 }
 
-/* الزوايا الزخرفية */
+.deco-6 {
+    right: 5%;
+    transform: translateY(-50%) rotate(-45deg);
+    animation: linePulse 4s ease-in-out infinite 2s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+@keyframes linePulse {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.5; }
+}
+
+/* زوايا الزخرفة */
 .corner-decor {
     position: absolute;
     z-index: 3;
 }
 
-.top-right {
+.top-left-corner {
     top: 30px;
-    left: 30px;
-}
-
-.bottom-left {
-    bottom: 30px;
     right: 30px;
 }
 
-.corner-element {
+.bottom-right-corner {
+    bottom: 30px;
+    left: 30px;
+}
+
+.corner-line {
     width: 40px;
-    height: 40px;
-    border: 2px solid var(--glass-border);
+    height: 1px;
+    background: var(--purple-light);
     margin-bottom: 10px;
     opacity: 0.5;
-    animation: neonBorder 4s ease-in-out infinite;
 }
 
-.corner-element:nth-child(1) {
-    animation-delay: 0s;
-}
-
-.corner-element:nth-child(2) {
-    animation-delay: 1s;
-}
-
-.corner-element:nth-child(3) {
-    animation-delay: 2s;
+.corner-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--purple-bright);
+    border-radius: 50%;
+    opacity: 0.7;
 }
 
 /* =========================================== */
@@ -455,6 +494,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
+    background: rgba(13, 13, 26, 0.95);
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -462,40 +503,26 @@ body {
     display: none;
 }
 
-.glass-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(13, 13, 26, 0.85);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    z-index: 1;
-}
-
-.loading-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
+.loading-container {
     width: 100%;
     max-width: 500px;
     padding: 2rem;
+    text-align: center;
 }
 
-/* المحمل الجديد */
-.loader-wrapper {
+/* المحمل */
+.loader-section {
     margin-bottom: 3rem;
 }
 
-.loader-circle {
+.purple-loader {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     margin: 0 auto 2rem;
 }
 
-.circle-inner {
+.loader-core {
     position: absolute;
     top: 0;
     left: 0;
@@ -503,66 +530,54 @@ body {
     height: 100%;
     border-radius: 50%;
     background: conic-gradient(
-        from 0deg,
-        var(--purple-dark) 0%,
-        var(--purple-light) 25%,
-        var(--pink-neon) 50%,
-        var(--purple-light) 75%,
-        var(--purple-dark) 100%
+        var(--purple-dark),
+        var(--purple-medium),
+        var(--purple-light),
+        var(--pink-neon),
+        var(--purple-light),
+        var(--purple-medium),
+        var(--purple-dark)
     );
     animation: spin 2s linear infinite;
-    filter: blur(10px);
 }
 
-.circle-outer {
+.loader-ring {
     position: absolute;
     top: 10px;
     left: 10px;
     width: calc(100% - 20px);
     height: calc(100% - 20px);
     border-radius: 50%;
-    background: var(--gradient-dark);
-    backdrop-filter: blur(5px);
-    border: 2px solid var(--glass-border);
+    background: rgba(13, 13, 26, 0.9);
 }
 
-.circle-spin {
+.loader-glow {
     position: absolute;
-    top: 25px;
-    left: 25px;
-    width: calc(100% - 50px);
-    height: calc(100% - 50px);
+    top: 30px;
+    left: 30px;
+    width: calc(100% - 60px);
+    height: calc(100% - 60px);
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top: 3px solid var(--purple-neon);
+    border-top: 3px solid var(--purple-bright);
     border-right: 3px solid var(--pink-neon);
     animation: spinReverse 1.5s linear infinite;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes spinReverse {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(-360deg); }
-}
-
-/* نصوص التحميل */
-.loading-info {
+/* النصوص */
+.loading-text-section {
     margin-bottom: 2rem;
 }
 
 .loading-title {
-    font-size: 1.8rem;
-    color: var(--purple-neon);
+    font-size: 1.6rem;
+    color: var(--purple-bright);
     margin-bottom: 0.5rem;
     font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .loading-title i {
@@ -570,82 +585,63 @@ body {
 }
 
 .loading-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--text-glow);
     opacity: 0.9;
 }
 
 /* شريط التقدم */
-.progress-container {
+.progress-section {
+    width: 100%;
+}
+
+.progress-wrapper {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
 }
 
-.progress-track {
-    position: relative;
+.progress-bar {
     width: 100%;
-    height: 12px;
-    background: var(--glass-dark);
-    border-radius: 10px;
+    height: 10px;
+    background: rgba(157, 78, 221, 0.1);
+    border-radius: 5px;
     margin-bottom: 1rem;
     overflow: hidden;
     border: 1px solid var(--glass-border);
 }
 
 .progress-fill {
-    position: absolute;
-    top: 0;
-    right: 0;
     height: 100%;
     width: 0%;
     background: var(--gradient-neon);
-    border-radius: 10px;
+    border-radius: 5px;
     transition: width 1s linear;
-    box-shadow: 0 0 20px var(--purple-neon);
+    box-shadow: 0 0 15px var(--purple-bright);
 }
 
-.progress-glow {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.3), 
-        transparent);
-    animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-.progress-text {
+.progress-info {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    font-size: 1.3rem;
+    gap: 8px;
+    font-size: 1.2rem;
 }
 
 .time-count {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 800;
-    color: var(--purple-neon);
-    min-width: 40px;
-    text-shadow: 0 0 15px var(--purple-neon);
+    color: var(--purple-bright);
+    min-width: 35px;
 }
 
 .time-label {
     color: var(--text-glow);
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
-/* الزخارف الجانبية للتحميل */
-.loading-decor {
+/* زخارف التحميل */
+.loading-decorations {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -655,142 +651,123 @@ body {
     z-index: 1;
 }
 
-.decor-dot {
+.loading-dot {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
+    background: var(--purple-bright);
     border-radius: 50%;
-    background: var(--purple-neon);
-    opacity: 0.5;
-    animation: floatEffect 4s ease-in-out infinite;
+    opacity: 0.4;
+    animation: dotFloat 4s ease-in-out infinite;
 }
 
-.dot-1 { top: 20%; left: 10%; animation-delay: 0s; }
-.dot-2 { top: 60%; right: 15%; animation-delay: 1s; }
-.dot-3 { bottom: 30%; left: 20%; animation-delay: 2s; }
-.dot-4 { bottom: 10%; right: 10%; animation-delay: 3s; }
+.dot-1 { top: 20%; left: 15%; animation-delay: 0s; }
+.dot-2 { top: 60%; right: 20%; animation-delay: 1s; }
+.dot-3 { bottom: 30%; left: 25%; animation-delay: 2s; }
 
-/* =========================================== */
-/* تأثيرات الانتقال */
-/* =========================================== */
-.fade-out {
-    animation: fadeOutEffect 1.5s ease forwards !important;
-}
-
-@keyframes fadeOutEffect {
-    0% { 
-        opacity: 1; 
-        transform: scale(1);
-        filter: blur(0);
-    }
-    100% { 
-        opacity: 0; 
-        transform: scale(1.1);
-        filter: blur(10px);
-        visibility: hidden;
-    }
+@keyframes dotFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-15px) scale(1.2); }
 }
 
 /* =========================================== */
 /* استجابة للأجهزة */
 /* =========================================== */
 @media (max-width: 768px) {
-    .welcome-content,
-    .loading-content {
+    .welcome-container {
+        padding: 1rem;
+    }
+    
+    .welcome-content {
         padding: 2rem 1.5rem;
     }
     
     .main-logo {
-        width: 150px;
-        height: 150px;
-        margin-bottom: 2rem;
-    }
-    
-    .logo-glow {
-        font-size: 3.5rem;
-    }
-    
-    .crown-effect {
-        font-size: 2.5rem;
-        top: -20px;
-    }
-    
-    .main-title {
-        font-size: 2.5rem;
-    }
-    
-    .tagline {
-        font-size: 1.5rem;
-    }
-    
-    .button-content {
-        padding: 1.2rem 3rem;
-        font-size: 1.3rem;
-    }
-    
-    .loader-circle {
         width: 120px;
         height: 120px;
     }
     
-    .loading-title {
-        font-size: 1.5rem;
-    }
-    
-    .corner-element {
-        width: 30px;
-        height: 30px;
-    }
-}
-
-@media (max-width: 480px) {
-    .welcome-content,
-    .loading-content {
-        padding: 1.5rem 1rem;
-    }
-    
-    .main-logo {
-        width: 120px;
-        height: 120px;
-    }
-    
-    .logo-glow {
+    .logo-text {
         font-size: 2.8rem;
     }
     
-    .main-title {
+    .crown-icon {
         font-size: 2rem;
+        top: -10px;
+    }
+    
+    .main-title {
+        font-size: 2.2rem;
+    }
+    
+    .welcome-text {
+        font-size: 1.5rem;
+    }
+    
+    .gr-name {
+        font-size: 2.8rem;
     }
     
     .tagline {
         font-size: 1.2rem;
-        gap: 10px;
     }
     
-    .motto {
-        font-size: 1.1rem;
+    .start-btn {
+        padding: 1rem 2.5rem;
+        font-size: 1.2rem;
+        min-width: 200px;
     }
     
-    .button-content {
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
-    }
-    
-    .loader-circle {
+    .purple-loader {
         width: 100px;
         height: 100px;
     }
     
-    .progress-track {
-        height: 10px;
+    .loading-title {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-content {
+        padding: 1.5rem 1rem;
     }
     
-    .time-count {
+    .main-logo {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .logo-text {
+        font-size: 2.2rem;
+    }
+    
+    .main-title {
         font-size: 1.8rem;
     }
     
-    .decor-circle,
-    .corner-element {
+    .gr-name {
+        font-size: 2.2rem;
+    }
+    
+    .tagline {
+        font-size: 1.1rem;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .start-btn {
+        padding: 0.8rem 2rem;
+        font-size: 1.1rem;
+        min-width: 180px;
+    }
+    
+    .decoration {
+        display: none;
+    }
+    
+    .corner-decor {
         display: none;
     }
 }
@@ -799,46 +776,41 @@ body {
 @media (max-height: 600px) and (orientation: landscape) {
     .welcome-content {
         padding: 1rem;
-        transform: scale(0.9);
+        transform: scale(0.85);
     }
     
     .main-logo {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
         margin-bottom: 1rem;
     }
     
-    .logo-glow {
-        font-size: 2.5rem;
+    .logo-text {
+        font-size: 2rem;
     }
     
     .main-title {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         margin-bottom: 0.5rem;
     }
     
     .tagline {
         font-size: 1rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
     }
     
-    .button-content {
-        padding: 0.8rem 1.5rem;
+    .start-btn {
+        padding: 0.6rem 1.5rem;
         font-size: 1rem;
-        margin-top: 1rem;
-    }
-    
-    .loader-circle {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 1rem;
+        min-width: 160px;
+        margin-top: 0.5rem;
     }
 }
 
 /* دعم اللمس */
 @media (pointer: coarse) {
-    .button-content {
+    .start-btn {
         padding: 1.2rem 3rem;
-        min-height: 60px;
+        min-height: 55px;
     }
 }
